@@ -343,7 +343,7 @@ func setupRouter(
 	{
 		// Static file serving for uploaded images under /api/v1/uploads (for Nginx proxy)
 		v1.Static("/uploads", "./static/uploads")
-	{
+
 		// Image proxy endpoint (for external images that DashScope can't access)
 		// Also used by frontend for nanobanana.uz images
 		// Caches images locally to avoid repeated downloads
