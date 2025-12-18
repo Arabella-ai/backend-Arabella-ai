@@ -333,6 +333,9 @@ func setupRouter(
 	// Static file serving for cached temp images (for DashScope)
 	router.Static("/temp-images", "./static/temp-images")
 
+	// Static file serving for uploaded images
+	router.Static("/uploads", "./static/uploads")
+
 	// API v1 routes
 	v1 := router.Group("/api/v1")
 	{
@@ -637,6 +640,9 @@ func setupRouter(
 				adminTemplateRoutes.PUT("/:id", templateHandler.UpdateTemplate)
 				adminTemplateRoutes.DELETE("/:id", templateHandler.DeleteTemplate)
 			}
+
+			// Admin upload endpoints
+			adminRoutes.POST("/upload/image", uploadHandler.UploadImage)
 		}
 
 		// Video routes (authenticated)

@@ -80,8 +80,8 @@ type DashScopeOutput struct {
 	TaskStatus string `json:"task_status,omitempty"`
 	VideoURL   string `json:"video_url,omitempty"`
 	Video      string `json:"video,omitempty"`
-	Code       string `json:"code,omitempty"`       // Error code in output
-	Message    string `json:"message,omitempty"`    // Error message in output
+	Code       string `json:"code,omitempty"`    // Error code in output
+	Message    string `json:"message,omitempty"` // Error message in output
 }
 
 // DashScopeUsage represents API usage information
@@ -649,7 +649,7 @@ func (p *WanAIProvider) downloadAndCacheImage(ctx context.Context, imageURL stri
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, // Bypass SSL for problematic domains
 		},
 	}
-	
+
 	// Try HTTPS first, fallback to HTTP if needed
 	var resp *http.Response
 	var err error
@@ -667,22 +667,22 @@ func (p *WanAIProvider) downloadAndCacheImage(ctx context.Context, imageURL stri
 		if err == nil && resp.StatusCode == http.StatusOK {
 			break
 		}
-		
+
 		// If HTTPS failed and we haven't tried HTTP yet, try HTTP
 		if attempt == 0 && strings.HasPrefix(imageURL, "https://") {
 			imageURL = strings.Replace(imageURL, "https://", "http://", 1)
 			continue
 		}
-		
+
 		if resp != nil {
 			resp.Body.Close()
 		}
-		
+
 		if attempt < maxRetries-1 {
 			time.Sleep(time.Duration(attempt+1) * time.Second)
 		}
 	}
-	
+
 	if err != nil {
 		return "", fmt.Errorf("failed to download image after %d attempts: %w", maxRetries, err)
 	}
