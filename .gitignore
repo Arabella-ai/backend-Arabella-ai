@@ -60,3 +60,36 @@ build/
 # docs/swagger.json
 # docs/swagger.yaml
 
+# Secrets and sensitive files
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.jks
+secrets/
+config/secrets/
+
+# Build binaries
+arabella-api
+bin/api
+*.exe
+
+# Static files with sensitive data
+static/temp-images/
+static/thumbnails/
+
+# Scripts with hardcoded secrets
+*credentials*.sh
+*secret*.sh
+
+# Database dumps
+*.sql
+*.dump
+*.backup
+!migrations/**/*.sql
+
+# Logs
+*.log
+logs/
+
