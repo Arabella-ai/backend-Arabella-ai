@@ -342,7 +342,18 @@ func setupRouter(
 	v1 := router.Group("/api/v1")
 	{
 		// Static file serving for uploaded images under /api/v1/uploads (for Nginx proxy)
-		v1.StaticFS("/uploads", http.Dir("./static/uploads"))
+		v1.GET("/uploads/*filepath", func(c *gin.Context) {
+			filepath := c.Param("filepath")
+			filepath = strings.TrimPrefix(filepath, "/")
+			filePath := filepath.Join("./static/uploads", filepath)
+			c.File(filePath)
+		})
+		v1.HEAD("/uploads/*filepath", func(c *gin.Context) {
+			filepath := c.Param("filepath")
+			filepath = strings.TrimPrefix(filepath, "/")
+			filePath := filepath.Join("./static/uploads", filepath)
+			c.File(filePath)
+		})
 
 		// Image proxy endpoint (for external images that DashScope can't access)
 		// Also used by frontend for nanobanana.uz images
