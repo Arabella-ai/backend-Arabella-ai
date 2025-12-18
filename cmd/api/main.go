@@ -345,20 +345,20 @@ func setupRouter(
 		// Static file serving for uploaded images under /api/v1/uploads (for Nginx proxy)
 		// Use handler function since StaticFS doesn't work properly in groups
 		v1.GET("/uploads/*filepath", func(c *gin.Context) {
-			filepath := c.Param("filepath")
+			pathParam := c.Param("filepath")
 			// Remove leading slash if present
-			if strings.HasPrefix(filepath, "/") {
-				filepath = filepath[1:]
+			if strings.HasPrefix(pathParam, "/") {
+				pathParam = pathParam[1:]
 			}
-			filePath := filepath.Join("./static/uploads", filepath)
+			filePath := filepath.Join("./static/uploads", pathParam)
 			c.File(filePath)
 		})
 		v1.HEAD("/uploads/*filepath", func(c *gin.Context) {
-			filepath := c.Param("filepath")
-			if strings.HasPrefix(filepath, "/") {
-				filepath = filepath[1:]
+			pathParam := c.Param("filepath")
+			if strings.HasPrefix(pathParam, "/") {
+				pathParam = pathParam[1:]
 			}
-			filePath := filepath.Join("./static/uploads", filepath)
+			filePath := filepath.Join("./static/uploads", pathParam)
 			c.File(filePath)
 		})
 
