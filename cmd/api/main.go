@@ -13,6 +13,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"strings"
 	"syscall"
 	"time"
 
@@ -342,8 +343,24 @@ func setupRouter(
 	v1 := router.Group("/api/v1")
 	{
 		// Static file serving for uploaded images under /api/v1/uploads (for Nginx proxy)
-		// Use StaticFS to properly serve files from the uploads directory
-		v1.StaticFS("/uploads", http.Dir("./static/uploads"))
+		// Use handler function since StaticFS doesn't work properly in groups
+		v1.GET("/uploads/*filepath", func(c *gin.Context) {
+			filepath := c.Param("filepath")
+			// Remove leading slash if present
+			if strings.HasPrefix(filepath, "/") {
+				filepath = filepath[1:]
+			}
+			filePath := filepath.Join("./static/uploads", filepath)
+			c.File(filePath)
+		})
+		v1.HEAD("/uploads/*filepath", func(c *gin.Context) {
+			filepath := c.Param("filepath")
+			if strings.HasPrefix(filepath, "/") {
+				filepath = filepath[1:]
+			}
+			filePath := filepath.Join("./static/uploads", filepath)
+			c.File(filePath)
+		})
 
 		// Image proxy endpoint (for external images that DashScope can't access)
 		// Also used by frontend for nanobanana.uz images
