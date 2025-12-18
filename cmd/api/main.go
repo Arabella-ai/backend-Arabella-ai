@@ -343,15 +343,15 @@ func setupRouter(
 	{
 		// Static file serving for uploaded images under /api/v1/uploads (for Nginx proxy)
 		v1.GET("/uploads/*filepath", func(c *gin.Context) {
-			filepath := c.Param("filepath")
-			filepath = strings.TrimPrefix(filepath, "/")
-			filePath := filepath.Join("./static/uploads", filepath)
+			path := c.Param("filepath")
+			path = strings.TrimPrefix(path, "/")
+			filePath := filepath.Join("./static/uploads", path)
 			c.File(filePath)
 		})
 		v1.HEAD("/uploads/*filepath", func(c *gin.Context) {
-			filepath := c.Param("filepath")
-			filepath = strings.TrimPrefix(filepath, "/")
-			filePath := filepath.Join("./static/uploads", filepath)
+			path := c.Param("filepath")
+			path = strings.TrimPrefix(path, "/")
+			filePath := filepath.Join("./static/uploads", path)
 			c.File(filePath)
 		})
 
