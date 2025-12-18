@@ -2,7 +2,6 @@ package handler
 
 import (
 	"fmt"
-	"io"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -138,7 +137,7 @@ func (h *UploadHandler) UploadImage(c *gin.Context) {
 	if baseURL == "" {
 		// Fallback to constructing from request
 		scheme := "https"
-		if c.GetHeader("X-Forwarded-Proto") == "http" || !c.Request.TLS {
+		if c.GetHeader("X-Forwarded-Proto") == "http" || c.Request.TLS == nil {
 			scheme = "http"
 		}
 		host := c.GetHeader("Host")

@@ -217,7 +217,7 @@ func main() {
 	logger.Info("Video worker started")
 
 	// Setup router
-	router := setupRouter(cfg, logger, authHandler, templateHandler, userHandler, videoHandler,
+	router := setupRouter(cfg, logger, authHandler, templateHandler, userHandler, videoHandler, uploadHandler,
 		authMiddleware, rateLimitMiddleware, loggingMiddleware, wsHandler)
 
 	// Create HTTP server
@@ -285,6 +285,7 @@ func setupRouter(
 	templateHandler *handler.TemplateHandler,
 	userHandler *handler.UserHandler,
 	videoHandler *handler.VideoHandler,
+	uploadHandler *handler.UploadHandler,
 	authMiddleware *middleware.AuthMiddleware,
 	rateLimitMiddleware *middleware.RateLimitMiddleware,
 	loggingMiddleware *middleware.LoggingMiddleware,
