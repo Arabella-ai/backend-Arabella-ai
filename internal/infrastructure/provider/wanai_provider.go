@@ -638,7 +638,13 @@ func (p *WanAIProvider) downloadAndCacheImage(ctx context.Context, imageURL stri
 		if p.serverBaseURL != "" {
 			// Convert HTTPS to HTTP for DashScope compatibility
 			baseURL := strings.Replace(p.serverBaseURL, "https://", "http://", 1)
-			return fmt.Sprintf("%s/temp-images/%s", baseURL, filename), nil
+			cachedURL := fmt.Sprintf("%s/temp-images/%s", baseURL, filename)
+			p.logger.Info("Returning cached image URL (HTTP)",
+				zap.String("original_base", p.serverBaseURL),
+				zap.String("converted_base", baseURL),
+				zap.String("cached_url", cachedURL),
+			)
+			return cachedURL, nil
 		}
 		return fmt.Sprintf("/temp-images/%s", filename), nil
 	}
@@ -709,7 +715,13 @@ func (p *WanAIProvider) downloadAndCacheImage(ctx context.Context, imageURL stri
 	if p.serverBaseURL != "" {
 		// Convert HTTPS to HTTP for DashScope compatibility
 		baseURL := strings.Replace(p.serverBaseURL, "https://", "http://", 1)
-		return fmt.Sprintf("%s/temp-images/%s", baseURL, filename), nil
+		cachedURL := fmt.Sprintf("%s/temp-images/%s", baseURL, filename)
+		p.logger.Info("Returning newly cached image URL (HTTP)",
+			zap.String("original_base", p.serverBaseURL),
+			zap.String("converted_base", baseURL),
+			zap.String("cached_url", cachedURL),
+		)
+		return cachedURL, nil
 	}
 	return fmt.Sprintf("/temp-images/%s", filename), nil
 }
