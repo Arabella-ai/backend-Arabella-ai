@@ -194,6 +194,7 @@ func main() {
 	templateHandler := handler.NewTemplateHandler(templateUseCase)
 	userHandler := handler.NewUserHandler(userUseCase)
 	videoHandler := handler.NewVideoHandler(videoUseCase)
+	uploadHandler := handler.NewUploadHandler()
 
 	// Initialize middleware
 	authMiddleware := middleware.NewAuthMiddleware(authUseCase)
