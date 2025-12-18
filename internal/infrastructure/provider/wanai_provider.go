@@ -704,11 +704,9 @@ func (p *WanAIProvider) downloadAndCacheImage(ctx context.Context, imageURL stri
 		return "", fmt.Errorf("failed to save image: %w", err)
 	}
 
-	// Return URL to cached image (use HTTP to avoid SSL issues)
+	// Return URL to cached image (use full HTTPS URL so DashScope can access it)
 	if p.serverBaseURL != "" {
-		// Convert HTTPS to HTTP to avoid SSL certificate issues with DashScope
-		baseURL := strings.Replace(p.serverBaseURL, "https://", "http://", 1)
-		return fmt.Sprintf("%s/temp-images/%s", baseURL, filename), nil
+		return fmt.Sprintf("%s/temp-images/%s", p.serverBaseURL, filename), nil
 	}
 	return fmt.Sprintf("/temp-images/%s", filename), nil
 }
